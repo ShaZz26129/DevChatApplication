@@ -35,6 +35,8 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
 
     [ObservableProperty]
     string pairName;
+    [ObservableProperty]
+    string groupName;
     private MessageServiceHelper helper;
     private static int startpageid { get; set; }
 
@@ -45,17 +47,19 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
     public string MyPhoto { get; set; }
     public string PairConnectionId { get; set; }
     public string PairUserId { get; set; }
-    public string ParentID { get; private set; }
+    public string ParentID { get; set; }
     public string SelectedUserName { get; set; }
     public string selectedUserID { get; set; }
-    public string GroupName { get; private set; }
+    //public string GroupName { get; set; }
     public string chatUserName { get; set; }
     //ChatMessageViewModel(CommonChatModel chatModel)
     public GroupChatMessageViewModel(CommonChatModel chatModel)
     {
+        
         SelectedUserName = chatModel.OldSystemEmpCode;
         selectedUserID = chatModel.ParticipantID;
-        GroupName = chatModel.Subject;
+        this.groupName = chatModel.Subject;
+        Application.Current.MainPage.DisplayAlert("Error", $"{this.groupName}", "OK");
         ChatMessageList = new ObservableCollection<ChatMessage>();
         chatUserName = Preferences.Get("ChatUserName", "");
         this.MyUserId = Utils.GetUserId(chatUserName);
@@ -129,30 +133,32 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
         try
         {
             //await hubConnection.StartAsync();
-            await hubConnection.InvokeAsync("AddToGroup", GroupName);
+            await hubConnection.InvokeAsync("AddToGroup", this.groupName);
         }
         catch (System.Exception ex)
         {
-            Debug.WriteLine($"Error connecting to hub: {ex.Message}");
+            //Debug.WriteLine($"Error connecting to hub: {ex.Message}");
+            await Application.Current.MainPage.DisplayAlert("Error", $"Add to Group: {ex.Message}", "OK");
         }
     }
-    [RelayCommand]
-    private async Task SendMessageToGroupChat()
+    public async Task SendMessageToGroupChat()
     {
+        
         try
         {
+            await Application.Current.MainPage.DisplayAlert("Error", "Send Group Chat Message", "OK");
             var ProfilePic = App.UserProfilePic;
             var sendMessage = this.sendingMessage;
             if (!string.IsNullOrEmpty(sendMessage) && hubConnection.State == HubConnectionState.Connected)
             {
                 ChatMessageList.Add(new ChatMessage() { UserName = MyUserId, Message = sendMessage, IsOwnMessage = true, MyPhoto = this.MyPhoto, IsSystemMessage = false, ActionTime = DateTime.Now.ToString("hh:mm tt") });
-                await hubConnection.InvokeAsync("SendMessageToGroup", GroupName, MyUserId,ProfilePic, this.SendingMessage);
+                await hubConnection.InvokeAsync("SendMessageToGroup", this.groupName, MyUserId,ProfilePic, this.SendingMessage);
                 this.SendingMessage = string.Empty;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error in SendMessage: {ex.Message}");
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error in SendMessage: {ex.Message}", "OK");
         }
     }
 
@@ -526,7 +532,8 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
         }
         catch (Exception ex)
         {
-            SendLocalMessage($"Send failed: {ex.Message}");
+            //SendLocalMessage($"Send failed: {ex.Message}");
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error in SendMessage: {ex.Message}", "OK");
         }
     }
 

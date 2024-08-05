@@ -3,6 +3,7 @@ using ChatApp.ViewModels;
 using ChatApp.Views;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace ChatApp;
 
@@ -13,6 +14,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .ConfigureSyncfusionCore()
             .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
 			{
@@ -41,8 +43,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<GroupChatViewModel>();
         builder.Services.AddSingleton<GroupChatPage>();
-        
 
+        
         return builder.Build();
 	}
 }

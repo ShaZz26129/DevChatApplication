@@ -30,6 +30,10 @@
         Title="Group Chat"
         ContentTemplate="{DataTemplate views:GroupChatPage}"
         Route="GroupChatPage"/>
+    <ShellContent
+        Title="GroupChatMessagePage"
+        ContentTemplate="{DataTemplate views:GroupChatMessagePage}"
+        Route="GroupChatMessagePage"/>
 
 
 

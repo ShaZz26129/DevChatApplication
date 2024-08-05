@@ -104,6 +104,7 @@ namespace ChatApp.ViewModels
         {
             NewChatCommand = new Command(NewChatCommandAsync);
             string chatUserName = Preferences.Get("ChatUserName", "");
+            Application.Current.MainPage.DisplayAlert("Error", "Constructor Chal rha hai ", "OK");
             //string connectionId = Preferences.Get("connectionId", "");
             //hubConnection = ChatHelper.GetInstanse(chatUserName);
             //signalRChatService = DependencyService.Get<ISignalRChatService>();

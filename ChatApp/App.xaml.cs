@@ -35,7 +35,8 @@ public partial class App : Application
 
     public App()
 	{
-		InitializeComponent();
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cW2hIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjW35YcHRRRWFeVExyXw==");
+        InitializeComponent();
 
 		MainPage = new AppShell();
 

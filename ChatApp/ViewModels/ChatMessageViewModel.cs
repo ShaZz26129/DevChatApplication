@@ -129,7 +129,8 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error in SendMessage: {ex.Message}");
+            //Console.WriteLine($"Error in SendMessage: {ex.Message}");
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error in SendMessage: {ex.Message}", "OK");
         }
     }
 
@@ -503,7 +504,8 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
         }
         catch (Exception ex)
         {
-            SendLocalMessage($"Send failed: {ex.Message}");
+            //SendLocalMessage($"Send failed: {ex.Message}");
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error in SendMessage: {ex.Message}", "OK");
         }
     }
 

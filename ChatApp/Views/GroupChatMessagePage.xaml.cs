@@ -13,4 +13,9 @@ public partial class GroupChatMessagePage : ContentPage
     {
        await viewModel.Typing();
     }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await viewModel.SendMessageToGroupChat();
+    }
 }
