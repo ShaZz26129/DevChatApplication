@@ -9,4 +9,9 @@ public partial class ChatMessagePage : ContentPage
         InitializeComponent();
         BindingContext = viewModel = new ChatMessageViewModel();
     }
+
+    private async void entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        await viewModel.Typing();
+    }
 }

@@ -8,7 +8,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:ChatApp.ViewModel"
              Title="GroupChatMessagePage"
-             x:DataType="viewmodel:ChatMessageViewModel"
+             x:DataType="viewmodel:GroupChatMessageViewModel"
              Shell.BackgroundColor="#5cb26e">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -291,21 +291,21 @@
                                    TextChanged="entry_TextChanged"
                                 VerticalOptions="FillAndExpand" 
                                 TextColor="Black"/>
-                                <Button Text="Send" 
+                                <!--<Button Text="Send" 
                                         Clicked="Button_Clicked"
                                         HeightRequest="40"
                                         HorizontalOptions="Center"
                                         VerticalOptions="CenterAndExpand"
                                         WidthRequest="45"
                                         TextColor="White"
-                                        />
-                                <!--<ImageButton
+                                        />-->
+                                <ImageButton
                                 Command="{Binding SendMessageToGroupChatCommand}"
                                 HeightRequest="45"
                                 HorizontalOptions="Center"
                                 Source="send.png"
                                 VerticalOptions="CenterAndExpand"
-                                WidthRequest="45" />-->
+                                WidthRequest="45" />
 
                             </StackLayout>
                         </StackLayout>

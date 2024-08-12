@@ -272,6 +272,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     Placeholder="Type Your Message"
                                     Text="{Binding SendingMessage}"
+                                    TextChanged="entry_TextChanged"
                                     VerticalOptions="FillAndExpand" 
                                     TextColor="Black"/>
 

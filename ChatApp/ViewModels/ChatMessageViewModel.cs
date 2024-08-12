@@ -53,7 +53,8 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
         string chatUserName = Preferences.Get("ChatUserName", "");
         this.MyUserId = Utils.GetUserId(chatUserName);
         this.MyName = Utils.GetName(chatUserName);
-        this.MyPhoto = Preferences.Get("ProfilePhoto", "");
+        this.MyPhoto = Utils.GetUserProfile(chatUserName);
+        //this.MyPhoto = Preferences.Get("ProfilePhoto", "");
         hubConnection = ChatHelper.GetInstanse(chatUserName);
         //This is the user Credentials Like this time its Gives Arun's Sir Credential because we login to him Account..
         //string chatUserName = Preferences.Get("ChatUserName", "");
@@ -116,23 +117,23 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
 
         //helper = new MessageServiceHelper();
     }
-    [RelayCommand]
-    private async Task SendMessageToGroupChat()
-    {
-        try
-        {
-            if (!string.IsNullOrEmpty(this.sendingMessage) && hubConnection.State == HubConnectionState.Connected)
-            {
-                await hubConnection.InvokeAsync("SendMessageToGroup", GroupName, MyUserId, this.SendingMessage);
-                this.SendingMessage = string.Empty;
-            }
-        }
-        catch (Exception ex)
-        {
-            //Console.WriteLine($"Error in SendMessage: {ex.Message}");
-            await Application.Current.MainPage.DisplayAlert("Error", $"Error in SendMessage: {ex.Message}", "OK");
-        }
-    }
+    //[RelayCommand]
+    //private async Task SendMessageToGroupChat()
+    //{
+    //    try
+    //    {
+    //        if (!string.IsNullOrEmpty(this.sendingMessage) && hubConnection.State == HubConnectionState.Connected)
+    //        {
+    //            await hubConnection.InvokeAsync("SendMessageToGroup", GroupName, MyUserId, this.SendingMessage);
+    //            this.SendingMessage = string.Empty;
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        //Console.WriteLine($"Error in SendMessage: {ex.Message}");
+    //        await Application.Current.MainPage.DisplayAlert("Error", $"Error in SendMessage: {ex.Message}", "OK");
+    //    }
+    //}
 
     //public async void GetMessage()
     //{
@@ -509,7 +510,7 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
         }
     }
 
-    async Task Typing()
+    public async Task Typing()
     {
         await hubConnection.InvokeAsync("Typing", this.PairConnectionId, this.MyName);
     }
@@ -533,6 +534,7 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
             this.PairUserId = query["userId"] as string;
             this.PairName = query["name"] as string;
             this.PairPhoto = query["photo"] as string;
+            ChatMessageList.Clear();
             // Debug statements to verify the parameters
             Console.WriteLine($"PairConnectionId: {this.PairConnectionId}");
             Console.WriteLine($"PairUserId: {this.PairUserId}");

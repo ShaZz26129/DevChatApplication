@@ -6,5 +6,6 @@ public partial class ChatListPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = viewModel; 
+		//viewModel.Dispose();
 	}    
 }

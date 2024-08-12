@@ -139,6 +139,8 @@
 	  <None Remove="Resources\Images\female1.png" />
 	  <None Remove="Resources\Images\female2.png" />
 	  <None Remove="Resources\Images\female3.png" />
+	  <None Remove="Resources\Images\group.png" />
+	  <None Remove="Resources\Images\hide.png" />
 	  <None Remove="Resources\Images\icon_send.png" />
 	  <None Remove="Resources\Images\location.png" />
 	  <None Remove="Resources\Images\m1.png" />
@@ -152,6 +154,7 @@
 	  <None Remove="Resources\Images\password.png" />
 	  <None Remove="Resources\Images\rightarrow.png" />
 	  <None Remove="Resources\Images\send.png" />
+	  <None Remove="Resources\Images\show.png" />
 	  <None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 

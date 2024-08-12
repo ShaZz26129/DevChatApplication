@@ -31,6 +31,17 @@ namespace ChatApp.ViewModels
                 OnPropertyChanged(nameof(ParticipantVisible));
             }
         }
+        private bool _busyIndicator;
+
+        public bool BusyIndicator
+        {
+            get { return _busyIndicator; }
+            set
+            {
+                _busyIndicator = value;
+                OnPropertyChanged(nameof(BusyIndicator));
+            }
+        }
         private List<ParticipantsModel1> participantsList;
         public List<ParticipantsModel1> ParticipantsList
         {
@@ -104,7 +115,7 @@ namespace ChatApp.ViewModels
         {
             NewChatCommand = new Command(NewChatCommandAsync);
             string chatUserName = Preferences.Get("ChatUserName", "");
-            Application.Current.MainPage.DisplayAlert("Error", "Constructor Chal rha hai ", "OK");
+            //Application.Current.MainPage.DisplayAlert("Error", "Constructor Chal rha hai ", "OK");
             //string connectionId = Preferences.Get("connectionId", "");
             //hubConnection = ChatHelper.GetInstanse(chatUserName);
             //signalRChatService = DependencyService.Get<ISignalRChatService>();

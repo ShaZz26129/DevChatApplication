@@ -16,6 +16,17 @@ public partial class LoginViewModel : BaseViewModel
             OnPropertyChanged(nameof(Email));
         }
     }
+    private bool _busyIndicator;
+
+    public bool  BusyIndicator
+    {
+        get { return _busyIndicator; }
+        set { 
+            _busyIndicator = value;
+            OnPropertyChanged(nameof(BusyIndicator));
+        }
+    }
+
     private string  _password;
 
     public string  Password
@@ -50,25 +61,34 @@ public partial class LoginViewModel : BaseViewModel
 
     [RelayCommand]
     private async void Login()
-    {
+    {   
         if (!string.IsNullOrWhiteSpace(_email) && !string.IsNullOrWhiteSpace(_password))
-        { 
+        {
+            BusyIndicator = true;
             var userInfo = await Webhelper.Login(_companyName,_email,_password);
+            if (userInfo != null)
+            {
                 // Connect to chat hub
-                string chatUsername = App.Username + "_" + App.EmpName + "_" + App.EmailId;
+                string chatUsername = App.Username + "*" + App.EmpName + "*" + App.UserProfilePic;
                 await ChatHelper.Connect(chatUsername);
 
                 // Save to local storage
                 Preferences.Set("ChatUserName", chatUsername);
-
+                BusyIndicator = false;
                 // Navigate to chat user list page
-                //await AppShell.Current.GoToAsync("//ChatListPage");
-                await AppShell.Current.GoToAsync("//GroupChatPage");
+                await AppShell.Current.GoToAsync("//ChatListPage");
+                //await AppShell.Current.GoToAsync("//GroupChatPage");
                 //await AppShell.Current.GoToAsync("//DemoContentPage");
+            }
+            else
+            {
+                BusyIndicator = false;
+                await Shell.Current.DisplayAlert("Alert!", "Invalid username or password!", "OK");
+            }  
         }
         else
         {
-            await Shell.Current.DisplayAlert("Alert!", "Invalid username or password!", "OK");
+            await Shell.Current.DisplayAlert("Alert!", "Username or password! is not Empty", "OK");
         }
         // Read the values set in registration page
         //var username = Preferences.Get("Username", "");

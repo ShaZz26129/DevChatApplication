@@ -1,5 +1,8 @@
-﻿using ChatApp.Helpers;
+﻿//using AudioUnit;
+using ChatApp.Helpers;
 using Microsoft.AspNetCore.SignalR.Client;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace ChatApp.ViewModel;
 
@@ -7,7 +10,7 @@ public partial class ChatListViewModel : BaseViewModel
 {
     HubConnection hubConnection;
     public ObservableCollection<ChatUser> ChatUserList { get; } = new();
-
+    private Timer refreshTimer;
     public ChatListViewModel()
     {
         //yahan se ap ko chat User yani jis id se ap login hain wo user milta hai
@@ -21,6 +24,7 @@ public partial class ChatListViewModel : BaseViewModel
 
         // Load list data
         LoadData();
+        //InitializeRefreshTimer();
     }
 
 
@@ -48,30 +52,56 @@ public partial class ChatListViewModel : BaseViewModel
                     ["photo"] = chatUser.PhotoPath
                 }
             );
+        //Dispose();
     }
-
+    [RelayCommand]
+    private void AddToGroupChat()
+    {
+        AppShell.Current.GoToAsync("//GroupChatPage");
+        //Dispose();
+    }
     async private void LoadData()
     {
         await hubConnection.InvokeAsync("GetConnectedUsers");
     }
 
+    //private void RenderList(string chatUserName, List<ChatUser> chatUserList)
+    //{
+    //    ObservableCollection<ChatUser> formatedList = new ObservableCollection<ChatUser>();
+    //    foreach (ChatUser item in chatUserList)
+    //    {
+    //        if (item.ChatUsername != chatUserName) // Exclude myself in chat user list
+    //        {
+    //            formatedList.Add(GetFormatedChatUser(item.ConnectionId, item.ChatUsername));
+    //        }
+    //    }
+
+    //    foreach (var item in formatedList)
+    //    {
+    //        ChatUserList.Add(item);
+    //    }
+
+    //    this.Title = "Chat Members (" + this.ChatUserList.Count.ToString() + ")";
+    //}
     private void RenderList(string chatUserName, List<ChatUser> chatUserList)
     {
-        ObservableCollection<ChatUser> formatedList = new ObservableCollection<ChatUser>();
+        // Clear the existing chat user list to avoid duplicates
+        ChatUserList.Clear();
         foreach (ChatUser item in chatUserList)
         {
             if (item.ChatUsername != chatUserName) // Exclude myself in chat user list
             {
-                formatedList.Add(GetFormatedChatUser(item.ConnectionId, item.ChatUsername));
+                ChatUserList.Add(GetFormatedChatUser(item.ConnectionId, item.ChatUsername));
             }
         }
 
-        foreach (var item in formatedList)
-        {
-            ChatUserList.Add(item);
-        }
+        //foreach (var item in formatedList)
+        //{
+        //    ChatUserList.Add(item);
+        //}
 
         this.Title = "Chat Members (" + this.ChatUserList.Count.ToString() + ")";
+        IsRefreshing = false;
     }
 
     private ChatUser GetFormatedChatUser(string connectionId, string chatUsername)
@@ -80,11 +110,10 @@ public partial class ChatListViewModel : BaseViewModel
 
         string username = String.Empty;
         string name = String.Empty;
-        string location = String.Empty;
         string photo = String.Empty;
-
+        string location = String.Empty;
         int count = 1;
-        string[] datas = chatUsername.Split('_');
+        string[] datas = chatUsername.Split('*');
         foreach (string data in datas)
         {
             switch (count)
@@ -119,17 +148,29 @@ public partial class ChatListViewModel : BaseViewModel
         return formatedChatUser;
     }
 
-    //public void LoadSampleData()
+    [RelayCommand]
+    public  void RefreshChatUsersAsync()
+    {
+        IsRefreshing = true;
+        LoadData();
+        IsRefreshing = false;
+    }
+    //private void InitializeRefreshTimer()
     //{
-    //    ChatUserList.Add(new ChatUser { Name = "Danieal Gonzalez", Location = "California, United States", IsOnline = true, PhotoPath = "m2.png" });
-    //    ChatUserList.Add(new ChatUser { Name = "Meaghan Sarah", Location = "Sacramento, California", IsOnline = true, PhotoPath = "f1.png" });                
-    //    ChatUserList.Add(new ChatUser { Name = "Jasper Margaret", Location = "Copenhagen, Denmark", IsOnline = true, PhotoPath = "m1.png" });
-    //    ChatUserList.Add(new ChatUser { Name = "William Russel", Location = "Houston, Texas", IsOnline = true, PhotoPath = "m3.png" });
-    //    ChatUserList.Add(new ChatUser { Name = "Amelia Sophia", Location = "Northern Ireland", IsOnline = true, PhotoPath = "f2.png" });
-    //    ChatUserList.Add(new ChatUser { Name = "Janiphar Neels", Location = "Wales, United Kingdom", IsOnline = false, PhotoPath = "f4.png" });
-    //    ChatUserList.Add(new ChatUser { Name = "Miraj Sheikh", Location = "Delli, India", IsOnline = false, PhotoPath = "m4.png" });
-    //    ChatUserList.Add(new ChatUser { Name = "Emma kidman", Location = "London, United Kingdom", IsOnline = false, PhotoPath = "f3.png" });
-    //    this.Title = "Chat Members (" + this.ChatUserList.Count.ToString() + ")";
+    //    refreshTimer = new System.Timers.Timer(30000); // Set interval to 60 seconds (60000 milliseconds)
+    //    refreshTimer.Elapsed += OnRefreshTimerElapsed;
+    //    refreshTimer.AutoReset = true;
+    //    refreshTimer.Enabled = true;
+    //}
+    //private void OnRefreshTimerElapsed(object sender, ElapsedEventArgs e)
+    //{
+    //    RefreshChatUsersAsync();
+    //}
+    // Ensure timer is stopped when the view model is disposed
+    //public void Dispose()
+    //{
+    //    refreshTimer?.Stop();
+    //    refreshTimer?.Dispose();
     //}
 }
 

@@ -39,9 +39,12 @@
                     Text="{Binding Title}"
                     TextColor="#fff"
                     VerticalOptions="Center" />
-
+                <ImageButton           
+                    HeightRequest="35"             
+                    HorizontalOptions="End"
+                    Source="group.png"
+                    Command="{Binding AddToGroupChatCommand}"/>
             </StackLayout>
-
         </HorizontalStackLayout>
     </Shell.TitleView>
 
@@ -64,7 +67,9 @@
                 HasShadow="False"
                 VerticalOptions="FillAndExpand">
 
-                <RefreshView Grid.ColumnSpan="2" IsRefreshing="{Binding IsRefreshing}">
+                <RefreshView Grid.ColumnSpan="2"
+                             Command="{Binding RefreshChatUsersAsyncCommand}"
+                             IsRefreshing="{Binding IsRefreshing}">
                     <ContentView>
                         <CollectionView
                             x:Name="lvChatUserList"
