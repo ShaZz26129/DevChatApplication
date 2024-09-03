@@ -13,7 +13,7 @@ namespace ChatServer.Hubs
             // Send message to the recipient client
             Clients.Client(connectionId).SendAsync("ReceiveMessage",Context.ConnectionId, userId, name, photo, message, unniqueId, false);
             // Send confirmation to the sender client
-            Clients.Caller.SendAsync("ReceiveMessage",connectionId, "", "", "", message, unniqueId, true);
+            //Clients.Caller.SendAsync("ReceiveMessage",connectionId, "", "", "", message, unniqueId, true);
         }
         public async Task SendMessageToGroup(string groupName, string message, string user,string profilePic)
         {

@@ -512,9 +512,8 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
 
     public async Task Typing()
     {
-        await hubConnection.InvokeAsync("Typing", this.PairConnectionId, this.MyName);
+        await hubConnection.InvokeAsync("TypingInSingle", this.PairConnectionId, this.MyName);
     }
-    
 
     private void SendLocalMessage(string message)
     {

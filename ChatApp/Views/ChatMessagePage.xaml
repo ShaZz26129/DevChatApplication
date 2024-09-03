@@ -117,7 +117,7 @@
                                                         CornerRadius="100"
                                                         HeightRequest="60"
                                                         HorizontalOptions="End"
-                                                        ImageSource="{Binding MyPhoto}"
+                                                        ImageSource="{Binding PairPhoto}"
                                                         VerticalOptions="CenterAndExpand"
                                                         WidthRequest="60" />
 
