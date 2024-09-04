@@ -13,20 +13,20 @@ namespace ChatApp.Helpers
         public static HubConnection GetInstanse(string chatUsername)
         {
 
-            //if (hubConnection == null || hubConnection.State == HubConnectionState.Disconnected)
-            //{
-            //    hubConnection = new HubConnectionBuilder()
-            //    .WithUrl("http://192.168.0.105:5067/chatHub?chatUsername=" + chatUsername)
-            //    .Build();
-            //}
-            //return hubConnection;
             if (hubConnection == null || hubConnection.State == HubConnectionState.Disconnected)
             {
                 hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://chathub.tiptopmail.com/chatHub?chatUsername=" + chatUsername)
+                .WithUrl("http://192.168.0.105:5067/chatHub?chatUsername=" + chatUsername)
                 .Build();
             }
             return hubConnection;
+            //if (hubConnection == null || hubConnection.State == HubConnectionState.Disconnected)
+            //{
+            //    hubConnection = new HubConnectionBuilder()
+            //    .WithUrl("https://chathub.tiptopmail.com/chatHub?chatUsername=" + chatUsername)
+            //    .Build();
+            //}
+            //return hubConnection;
 
         }
 

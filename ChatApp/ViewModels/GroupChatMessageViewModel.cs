@@ -105,7 +105,7 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
             });
             hubConnection.On<string>("TypingMessage", (name) =>
             {
-                if (name != chatUserName)
+                if (name != this.MyName)
                 {
                     TaskCancel();
                     this.TypingText = name + " is typing...";
@@ -523,8 +523,9 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
 
    public async Task Typing()
     {
-        
-        await hubConnection.InvokeAsync("Typing",GroupName,chatUserName);
+
+        //await hubConnection.InvokeAsync("Typing",GroupName,chatUserName);
+        await hubConnection.InvokeAsync("Typing", GroupName, this.MyName);
     }
 
 
