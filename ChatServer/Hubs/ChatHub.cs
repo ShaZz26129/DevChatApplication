@@ -75,7 +75,11 @@ namespace ChatServer.Hubs
             //}
             //return Task.CompletedTask;
         }
-
+        public Task TypingInSingle(string connectionId, string name)
+        {
+            //typing in Private
+            return Clients.Client(connectionId).SendAsync("TypingMessage", connectionId, name);
+        }
         public void Disconnect()
         {
             Context.Abort();
