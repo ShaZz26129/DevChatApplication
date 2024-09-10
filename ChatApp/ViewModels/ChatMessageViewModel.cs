@@ -512,7 +512,15 @@ public partial class ChatMessageViewModel : BaseViewModel,IQueryAttributable
 
     public async Task Typing()
     {
-        await hubConnection.InvokeAsync("TypingInSingle", this.PairConnectionId, this.MyName);
+        try
+        {
+            await hubConnection.InvokeAsync("TypingInSingle", this.PairConnectionId, this.MyName);
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error in Typing{ex.Message}", "OK");
+        }
+
     }
 
     private void SendLocalMessage(string message)

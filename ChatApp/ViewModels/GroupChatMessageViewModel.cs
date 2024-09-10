@@ -523,13 +523,21 @@ public partial class GroupChatMessageViewModel : BaseViewModel, IQueryAttributab
 
    public async Task Typing()
     {
+        try
+        {
+            //await hubConnection.InvokeAsync("Typing",GroupName,chatUserName);
+            await hubConnection.InvokeAsync("Typing", GroupName, this.MyName);
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error in Typing{ex.Message}", "OK");
+        }
 
-        //await hubConnection.InvokeAsync("Typing",GroupName,chatUserName);
-        await hubConnection.InvokeAsync("Typing", GroupName, this.MyName);
+
     }
 
 
-    private void SendLocalMessage(string message)
+        private void SendLocalMessage(string message)
     {
         //ChatMessageList.Add(new ChatMessage
         //{
