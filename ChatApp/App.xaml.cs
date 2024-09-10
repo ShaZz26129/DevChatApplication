@@ -9,12 +9,13 @@ public partial class App : Application
     public static string accessTokenExpiresOn;
     public static DateTime accessTokenReceivedOn;
     public static string refreshToken;
-    public static string ClientId = "35";
+    public static string ClientId = "31";
+    //public static string ClientId = "35";
     public static string ApplicationId = "31";
-    public static string ClientSecret = "EE02BE685D6D85029F5D34664F60B76D9B979292";
+    public static string ClientSecret = "E4D4D44DA550FFBACE43FF08E2FA253E41F83A2B";
     public static string TenantId = "5";
     public static string ClientIpAddress = "::1";
-    public static string ApiAccessToken = "de4402ed5cf40764b6bf26100a0ceaca02a95066";
+    public static string ApiAccessToken = "34e28182dfb006ac9971f77114ac32872f0bdcb0";
     public static string TenantOuId = "1";
     public static string JobId;
     public static bool GetApiResponce { get; set; }
